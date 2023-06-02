@@ -43,10 +43,10 @@ from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKube
 
 
 
-[docs]ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
+ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
 
-[docs]DAG_ID = "spark_pi"
+DAG_ID = "spark_pi"
 
 
 with DAG(
@@ -59,7 +59,7 @@ with DAG(
 ) as dag:
     # [START SparkKubernetesOperator_DAG]
 
-[docs]    t1 = SparkKubernetesOperator(
+    t1 = SparkKubernetesOperator(
         task_id='spark_pi_submit',
         namespace="default",
         application_file="example_spark_kubernetes_spark_pi.yaml",
@@ -87,4 +87,4 @@ from tests.system.utils import get_test_run  # noqa: E402
 
 # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
 
-[docs]test_run = get_test_run(dag)
+test_run = get_test_run(dag)
