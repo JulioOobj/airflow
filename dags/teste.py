@@ -62,7 +62,7 @@ with DAG(
     t1 = SparkKubernetesOperator(
         task_id='spark_pi_submit',
         namespace="default",
-        application_file="example_spark_kubernetes_spark_pi.yaml",
+        application_file="spark-base.yml",
         do_xcom_push=True,
         dag=dag,
 
