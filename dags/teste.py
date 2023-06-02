@@ -54,7 +54,7 @@ default_args = {
 # [START instantiate_dag]
 
 dag = DAG(
-    'spark_pi',
+    dag_id="pyspark",
     default_args=default_args,
     schedule_interval=timedelta(days=1),
     tags=['example']
@@ -64,7 +64,7 @@ dag = DAG(
 #     "example_spark_kubernetes_operator_pi.yaml").read()
 
 submit = SparkKubernetesOperator(
-    task_id='spark_pi_submit',
+    task_id=f"spark_pi_submit",
     namespace="sampletenant",
     application_file="spark-base.yaml",
     kubernetes_conn_id="kubernetes_in_cluster",
@@ -74,7 +74,7 @@ submit = SparkKubernetesOperator(
 )
 
 sensor = SparkKubernetesSensor(
-    task_id='spark_pi_monitor',
+    task_id="spark_pi_monitor",
     namespace="sampletenant",
     application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
     kubernetes_conn_id="kubernetes_in_cluster",
