@@ -49,34 +49,33 @@ ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 DAG_ID = "spark_pi"
 
 
-with DAG(
+dag= DAG(
     DAG_ID,
     default_args={'max_active_runs': 1},
     description='submit spark-pi as sparkApplication on kubernetes',
     schedule_interval=timedelta(days=1),
     start_date=datetime(2021, 1, 1),
     catchup=False,
-) as dag:
+)
     # [START SparkKubernetesOperator_DAG]
 
-    t1 = SparkKubernetesOperator(
-        task_id='spark_pi_submit',
-        kubernetes_conn_id="kubeConnTest",
-        namespace="default",
-        application_file="spark-base.yml",
-        do_xcom_push=True,
-        dag=dag,
+t1 = SparkKubernetesOperator(
+    task_id='spark_pi_submit',
+    kubernetes_conn_id="kubeConnTest",
+    namespace="default",
+    application_file="spark-base.yml",
+    do_xcom_push=True,
+    dag=dag,
 
-    )
+)
 
-    t2 = SparkKubernetesSensor(
-        task_id='spark_pi_monitor',
-        kubernetes_conn_id="kubeConnTest",
-        namespace="default",
-        aplication_name="teste",
-        #aplication_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['name'] }}",
-        dag=dag,
-    )
-    t1 >> t2
+t2 = SparkKubernetesSensor(
+    task_id='spark_pi_monitor',
+    kubernetes_conn_id="kubeConnTest",
+    namespace="default",
+    aplication_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['name'] }}",
+    dag=dag,
+)
+t1 >> t2
 
     # [END SparkKubernetesOperator_DAG]
