@@ -17,7 +17,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: pyspark-pi
-  namespace: default
+  namespace: sparkop
 spec:
   type: Python
   pythonVersion: "3"
@@ -33,11 +33,7 @@ spec:
     onFailureRetries: 3
     onSubmissionFailureRetryInterval: 20
     onFailureRetryInterval: 10
-  volumes:
-    - name: "test-volume"
-      hostPath:
-        path: "/tmp/spark"
-        type: Directory
+
   dynamicAllocation:
     enabled: true
     initialExecutors: 1
@@ -51,15 +47,10 @@ spec:
     labels:
       version: 3.1.1
     serviceAccount: spark
-    volumeMounts:
-      - name: "test-volume"
-        mountPath: "/tmp/spark"
+
   executor:
     cores: 1
     instances: 1
     memory: "512m"
     labels:
       version: 3.1.1
-    volumeMounts:
-      - name: "test-volume"
-        mountPath: "/tmp/spark"
