@@ -29,12 +29,15 @@ from datetime import timedelta, datetime
 # [START import_module]
 # The DAG object; we'll need this to instantiate a DAG
 from airflow import DAG
+
 # Operators; we need this to operate!
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.utils.dates import days_ago
 
 # [END import_module]
+
+import pathlib
 
 # [START default_args]
 # These args will get passed on to each operator
@@ -67,7 +70,8 @@ dag = DAG(
 submit = SparkKubernetesOperator(
     task_id="spark_pi_submit",
     namespace="sampletenant",
-    application_file="spark-base.yaml",
+    application_file= pathlib.Path("/opt/airflow/dags/repo/dags/spark-base.yaml").read_text(),
+    #application_file="spark-base.yaml",
     kubernetes_conn_id="kubeConnTest",
     do_xcom_push=True,
     dag=dag,
