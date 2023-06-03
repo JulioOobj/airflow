@@ -47,7 +47,7 @@ default_args = {
     'email_on_failure': False,
     'email_on_retry': False,
     'max_active_runs': 1,
-    'retries': 3
+    'retries': 1
 }
 # [END default_args]
 
@@ -57,6 +57,7 @@ dag = DAG(
     dag_id="pyspark",
     default_args=default_args,
     schedule_interval=timedelta(days=1),
+    catchup=False,
     tags=['example']
 )
 
