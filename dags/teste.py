@@ -75,7 +75,6 @@ with DAG(
         namespace="default",
         application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
         xcom_push=True,
-        provide_context=True,
         dag=dag,
     )
     t1 >> t2
