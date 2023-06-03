@@ -73,7 +73,7 @@ with DAG(
         task_id='spark_pi_monitor',
         kubernetes_conn_id="kubeConnTest",
         namespace="default",
-        aplication_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
+        aplication_name="teste",
         #aplication_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['name'] }}",
         dag=dag,
     )
