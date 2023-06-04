@@ -33,17 +33,17 @@ spec:
     onFailureRetries: 3
     onSubmissionFailureRetryInterval: 20
     onFailureRetryInterval: 10
-  volumes:
-    - name: "test-volume"
-      hostPath:
-        path: "/tmp/spark"
-        type: Directory
-  dynamicAllocation:
-    enabled: true
-    initialExecutors: 1
-    minExecutors: 1
-    maxExecutors: 10
-    shuffleTrackingTimeout: 
+#  volumes:
+#    - name: "test-volume"
+#      hostPath:
+#        path: "/tmp/spark"
+#        type: Directory
+##  dynamicAllocation:
+#    enabled: true
+#    initialExecutors: 1
+#    minExecutors: 1
+#    maxExecutors: 10
+#    shuffleTrackingTimeout: 
   driver:
     cores: 1
     coreLimit: "1200m"
@@ -51,15 +51,15 @@ spec:
     labels:
       version: 3.1.1
     serviceAccount: spark
-    volumeMounts:
-      - name: "test-volume"
-        mountPath: "/tmp/spark"
+#    volumeMounts:
+#      - name: "test-volume"
+#        mountPath: "/tmp/spark"
   executor:
     cores: 1
     instances: 1
     memory: "512m"
     labels:
       version: 3.1.1
-    volumeMounts:
-      - name: "test-volume"
-        mountPath: "/tmp/spark"
+#    volumeMounts:
+#      - name: "test-volume"
+#        mountPath: "/tmp/spark"
