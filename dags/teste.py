@@ -73,8 +73,8 @@ t2 = SparkKubernetesSensor(
     task_id='spark_pi_monitor',
     kubernetes_conn_id="kubeConnTest",
     namespace="default",
-    #application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['name'] }}",
-    application_name="teste",
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit') }}",
+    #application_name="teste",
     dag=dag,
 )
 t1 >> t2
