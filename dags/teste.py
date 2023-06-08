@@ -79,6 +79,6 @@ with TaskGroup("tg-task") as tg_task_1:
     )
     task_1 >> task_1_sensor
 t3 = EmptyOperator(task_id='end')
-t0 >> tg-task >> t3
+t0 >> tg_task_1 >> t3
 
     # [END SparkKubernetesOperator_DAG]
