@@ -50,7 +50,7 @@ spec:
     memory: "512m"
     labels:
       version: 3.1.1
-    serviceAccount: sparkoperator
+    serviceAccount: spark
     volumeMounts:
       - name: "test-volume"
         mountPath: "/tmp/spark"
