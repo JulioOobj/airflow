@@ -59,7 +59,7 @@ dag= DAG(
     catchup=False,
 )
     # [START SparkKubernetesOperator_DAG]
-with TaskGroup("tg-task-1") as tg_task_1:
+with TaskGroup("tg-task") as tg_task_1:
     task_1 = SparkKubernetesOperator(
                 task_id='task-1',
                 namespace="default",
@@ -77,6 +77,8 @@ with TaskGroup("tg-task-1") as tg_task_1:
         dag=dag,
         attach_log=True,
     )
-t0 >> tg-task-1
+    task_1 >> task_1_sensor
+t3 = EmptyOperator(task_id='end')
+t0 >> tg-task >> t3
 
     # [END SparkKubernetesOperator_DAG]
