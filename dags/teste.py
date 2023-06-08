@@ -35,14 +35,14 @@ from airflow import DAG
 # Operators; we need this to operate!
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-
+from airflow.utils.task_group import TaskGroup
 # [END import_module]
 
 
 # [START instantiate_dag]
 
 
-
+t0 = EmptyOperator(task_id='start')
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 
 
@@ -58,24 +58,24 @@ dag= DAG(
     catchup=False,
 )
     # [START SparkKubernetesOperator_DAG]
+with TaskGroup("tg-task-1", default_args=default_args) as tg_task_1:
+    task_1 = SparkKubernetesOperator(
+                task_id='task-1',
+                namespace="batch",
+                application_file="spark-base.yml",
+                do_xcom_push=True,
+                ubernetes_conn_id="kubeConnTest",
+                dag=dag,
+            )
 
-t1 = SparkKubernetesOperator(
-    task_id='spark_pi_submit',
-    kubernetes_conn_id="kubeConnTest",
-    namespace="default",
-    application_file="spark-base.yml",
-    do_xcom_push=True,
-    dag=dag,
-
-)
-
-t2 = SparkKubernetesSensor(
-    task_id='spark_pi_monitor',
-    kubernetes_conn_id="kubeConnTest",
-    namespace="default",
-    application_name="{{ task_instance.xcom_pull(task_ids='spark_pi_submit')['metadata']['name'] }}",
-    dag=dag,
-)
-t1 >> t2
+    task_1_sensor = SparkKubernetesSensor(
+        task_id='task-1-sensor',
+        namespace="batch",
+        application_name="{{ ttask_instance.xcom_pull(task_ids='tg-task-1.task-1')['metadata']['name'] }}",
+        kubernetes_conn_id="kubeConnTest",
+        dag=dag,
+        attach_log=True,
+    )
+t0 >> tg-task-1
 
     # [END SparkKubernetesOperator_DAG]

@@ -16,7 +16,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: pyspark-pii
+  name: pyspark-piii
   namespace: default
 spec:
   type: Python
