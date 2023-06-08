@@ -41,7 +41,7 @@ spec:
   dynamicAllocation:
     enabled: true
     initialExecutors: 1
-    minExecutors: 1
+    minExecutors: 5
     maxExecutors: 10
     shuffleTrackingTimeout: 
   driver:
