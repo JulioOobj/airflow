@@ -59,19 +59,19 @@ dag= DAG(
     catchup=False,
 )
     # [START SparkKubernetesOperator_DAG]
-with TaskGroup("tg-task-1", default_args=default_args) as tg_task_1:
+with TaskGroup("tg-task-1") as tg_task_1:
     task_1 = SparkKubernetesOperator(
                 task_id='task-1',
-                namespace="batch",
+                namespace="default",
                 application_file="spark-base.yml",
                 do_xcom_push=True,
-                ubernetes_conn_id="kubeConnTest",
+                kubernetes_conn_id="kubeConnTest",
                 dag=dag,
             )
 
     task_1_sensor = SparkKubernetesSensor(
         task_id='task-1-sensor',
-        namespace="batch",
+        namespace="default",
         application_name="{{ ttask_instance.xcom_pull(task_ids='tg-task-1.task-1')['metadata']['name'] }}",
         kubernetes_conn_id="kubeConnTest",
         dag=dag,
