@@ -27,6 +27,7 @@ spec:
   mainClass: org.apache.spark.examples.SparkPi
   mainApplicationFile: "local:///opt/spark/examples/src/main/python/pi.py"
   sparkVersion: "3.1.1"
+  watch: bool = False
   restartPolicy:
     type: OnFailure
     onSubmissionFailureRetries: 5
@@ -45,6 +46,7 @@ spec:
     maxExecutors: 3
     shuffleTrackingTimeout: 
   driver:
+    watch: bool = False
     cores: 1
     coreLimit: "1200m"
     memory: "512m"
@@ -55,6 +57,7 @@ spec:
       - name: "test-volume"
         mountPath: "/tmp/spark"
   executor:
+    watch: bool = False
     cores: 1
     instances: 1
     memory: "512m"
